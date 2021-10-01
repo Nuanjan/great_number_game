@@ -1,0 +1,12 @@
+{% extends "index.html" %} {% block display_high_low%}
+<div class="card" style="width: 18rem">
+  <img
+    src="{{ url_for('static', filename='/img/wonder.png') }}"
+    class="card-img-top"
+    alt="..."
+  />
+  <div class="card-body bg-danger">
+    <p class="card-text">The guessing number is too high!</p>
+  </div>
+</div>
+{% endblock %}
