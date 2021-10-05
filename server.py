@@ -12,7 +12,7 @@ app.secret_key = os.getenv('SECEST_KEY', 'for dev')
 @app.route('/')
 def number():
     session['number'] = random.randint(1, 100)
-    session['attemped'] = 1
+    session['attemped'] = 0
     print(session['number'], " this is number")
     return render_template('index.html')
 
@@ -25,31 +25,31 @@ def guess_number():
         flash(" Your number should be between 1 - 100")
         return redirect(url_for('number'))
     else:
-        if session['attemped'] > 5:
-            return redirect('/game_over')
-        if guessing_number < session['number']:
-            session['attemped'] += 1
-            return redirect('/tooLow')
-        elif guessing_number > session['number']:
-            session['attemped'] += 1
-            return redirect('/tooHigh')
-        else:
-            return redirect('/winner')
+        session['guessingNum'] = guessing_number
+        session['attemped'] += 1
+        return redirect('/show_result')
 
 
-@app.route('/tooLow')
-def to_low():
-    return render_template('too_low.html')
+@app.route('/show_result')
+def show_result():
+    guessingNum = session['guessingNum']
+    randomNum = session['number']
+    attempedTimes = session['attemped']
+    return render_template('show_result.html', guessingNum=guessingNum, randomNum=randomNum, attepedTimes=attempedTimes)
+
+# @app.route('/tooLow')
+# def to_low():
+#     return render_template('too_low.html')
 
 
-@app.route('/tooHigh')
-def to_high():
-    return render_template('too_high.html')
+# @app.route('/tooHigh')
+# def to_high():
+#     return render_template('too_high.html')
 
 
-@app.route('/game_over')
-def game_over():
-    return render_template('game_over.html')
+# @app.route('/game_over')
+# def game_over():
+#     return render_template('game_over.html')
 
 
 @app.route('/play_again', methods=['POST'])
@@ -58,9 +58,9 @@ def play_again():
     return redirect('/')
 
 
-@app.route('/winner')
-def winner():
-    return render_template('winner.html')
+# @app.route('/winner')
+# def winner():
+#     return render_template('winner.html')
 
 
 @app.route('/add_name', methods=['POST'])

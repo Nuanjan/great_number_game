@@ -1,0 +1,55 @@
+{% extends "index.html" %} {% block display_high_low%}
+<div id="display_high_low">
+  {% if attepedTimes <= 5%} {%if guessingNum > randomNum%}
+  <div class="card" style="width: 18rem">
+    <img
+      src="{{ url_for('static', filename='/img/wonder.png') }}"
+      class="card-img-top"
+      alt="..."
+    />
+    <div class="card-body bg-danger">
+      <p class="card-text">The guessing number is too high!</p>
+    </div>
+  </div>
+  {%elif guessingNum < randomNum%}
+  <div class="card" style="width: 18rem">
+    <img
+      src="{{ url_for('static', filename='/img/worry.png') }}"
+      class="card-img-top"
+      alt="..."
+    />
+    <div class="card-body bg-warning">
+      <p class="card-text">The guessing number is too low!</p>
+    </div>
+  </div>
+  {% else %}
+  <div class="card mx-auto" style="width: 18rem">
+    <img
+      src="{{ url_for('static', filename='/img/happy.png') }}"
+      class="card-img-top"
+      alt="crying face"
+    />
+    <div class="card-body bg-success">
+      <form class="text-center" action="/add_name" method="post">
+        <input type="text" name="name" id="" placeholder="put your name here" />
+        <input class="btn btn-info mt-3" type="submit" value="Submit" />
+      </form>
+    </div>
+  </div>
+  {%endif%} {%else%}
+  <div class="card mx-auto" style="width: 18rem">
+    <img
+      src="{{ url_for('static', filename='/img/crying.png') }}"
+      class="card-img-top"
+      alt="crying face"
+    />
+    <div class="card-body bg-danger">
+      <h1 class="card-text">Game Over!</h1>
+      <form class="text-center" action="/play_again" method="post">
+        <input class="btn btn-secondary" type="submit" value="Play Again" />
+      </form>
+    </div>
+  </div>
+  {% endif%}
+</div>
+{% endblock %}
